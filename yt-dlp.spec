@@ -33,16 +33,13 @@ export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=auto "
 export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
 export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto "
-pip3 install PyInstaller
-make all tar
+make  %{?_smp_mflags}
 python devscripts/make_lazy_extractors.py
-unset LD_LIBRARY_PATH
-python pyinst.py
 
 
 %install
-install -D -m755 dist/yt-dlp_linux %{buildroot}/usr/bin/yt-dlp
-
+%make_install PREFIX=/usr
+rm -rf %{buildroot}/usr/{share,man}
 
 %files
 %defattr(-,root,root,-)
