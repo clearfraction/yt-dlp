@@ -1,8 +1,8 @@
 Name     : yt-dlp
-Version  : 2022.11.11
+Version  : %(unset https_proxy && curl -s https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
 Release  : 1
 URL      : https://github.com/yt-dlp/yt-dlp
-Source0  : https://github.com/yt-dlp/yt-dlp/archive/refs/tags/2022.11.11.tar.gz
+Source0  : https://github.com/yt-dlp/yt-dlp/archive/refs/tags/%{version}.tar.gz
 Summary  : yt-dlp is a youtube-dl fork based on the now inactive youtube-dlc. 
 Group    : Development/Tools
 License  : Apache-2.0
