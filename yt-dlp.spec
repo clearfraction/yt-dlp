@@ -1,8 +1,9 @@
 Name     : yt-dlp
-Version  : %(unset https_proxy && curl -s https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
+Version  : %(unset https_proxy && curl -s https://api.github.com/repos/yt-dlp/yt-dlp-nightly-builds/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
 Release  : 1
-URL      : https://github.com/yt-dlp/yt-dlp
-Source0  : https://github.com/yt-dlp/yt-dlp/archive/refs/tags/%{version}.tar.gz
+URL      : https://github.com/yt-dlp/yt-dlp-nightly-builds/
+#Source0  : https://github.com/yt-dlp/yt-dlp-nightly-builds/archive/refs/tags/%%{version}.tar.gz
+Source00 : https://github.com/yt-dlp/yt-dlp-nightly-builds/releases/download/%{version}/yt-dlp.tar.gz
 Summary  : yt-dlp is a youtube-dl fork based on the now inactive youtube-dlc. 
 Group    : Development/Tools
 License  : Apache-2.0
@@ -13,13 +14,13 @@ BuildRequires : pypi-twine
 BuildRequires : pypi-brotli
 BuildRequires : pypi-brotlicffi
 BuildRequires : pypi-certifi
-BuildRequires : pandoc
+BuildRequires : pandoc wget
 
 %description
 yt-dlp is a youtube-dl fork based on the now inactive youtube-dlc. 
 
 %prep
-%setup -q -n yt-dlp-%{version}
+%setup -q -n yt-dlp
 
 %build
 unset http_proxy
@@ -33,8 +34,9 @@ export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=auto "
 export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
 export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto "
-make  %{?_smp_mflags}
-python devscripts/make_lazy_extractors.py
+curl -LO https://github.com/yt-dlp/yt-dlp/archive/refs/heads/master.zip
+unzip master.zip && mv yt-dlp-master/.github . && rm -rf master.zip
+make
 
 
 %install
