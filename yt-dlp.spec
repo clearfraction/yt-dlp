@@ -42,7 +42,7 @@ make
 %install
 %make_install PREFIX=/usr
 rm -rf %{buildroot}/usr/{share,man}
-sudo tee -a %{buildroot}/usr/bin/cf-yt-dlp-updater.sh << 'EOF'
+tee -a %{buildroot}/usr/bin/cf-yt-dlp-updater.sh << 'EOF'
 #!/bin/bash
 #-------------------------------------------------------------------------------
 # Install and update script for yt-dlp nightly
