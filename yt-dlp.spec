@@ -42,7 +42,22 @@ make
 %install
 %make_install PREFIX=/usr
 rm -rf %{buildroot}/usr/{share,man}
+sudo tee -a %{buildroot}/usr/bin/cf-yt-dlp-updater.sh << 'EOF'
+#!/bin/bash
+#-------------------------------------------------------------------------------
+# Install and update script for yt-dlp nightly
+# https://github.com/yt-dlp/yt-dlp-nightly-builds
+# Created by @paulcarroty for Clear Fraction Project
+#-------------------------------------------------------------------------------
+echo "Test sudo, we need it to write new version into /opt"
+
+sudo curl -L https://github.com/yt-dlp/yt-dlp-nightly-builds/releases/latest/download/yt-dlp -o /opt/3rd-party/bundles/clearfraction/usr/bin/yt-dlp \
+&& sudo chmod +x /opt/3rd-party/bundles/clearfraction/usr/bin/yt-dlp \
+&& echo "yt-dlp update finished with success🎉🌟"
+EOF
+
 
 %files
 %defattr(-,root,root,-)
 /usr/bin/yt-dlp
+/usr/bin/cf-yt-dlp-updater.sh
